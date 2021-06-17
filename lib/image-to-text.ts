@@ -1,17 +1,8 @@
-import { ComputerVisionClient } from '@azure/cognitiveservices-computervision';
 import { DescribeImageResponse } from '@azure/cognitiveservices-computervision/esm/models';
-import { ApiKeyCredentials, HttpRequestBody } from '@azure/ms-rest-js';
+import { HttpRequestBody } from '@azure/ms-rest-js';
 
+import computerVisionClient from './computer-vision-client';
 import { ImageCaption } from './models/image-caption';
-
-const key = process.env.API_KEY;
-const endpoint = process.env.API_ENDPOINT;
-
-if (!key || !endpoint) {
-  throw new Error('You must specify a key & endpoint');
-}
-
-const computerVisionClient = new ComputerVisionClient(new ApiKeyCredentials({ inHeader: { 'Ocp-Apim-Subscription-Key': key } }), endpoint);
 
 export async function imageToText(describeURL: string): Promise<ImageCaption> {
   const describeImage = await computerVisionClient.describeImage(describeURL);
