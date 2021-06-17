@@ -1,11 +1,13 @@
-import Cors from 'cors';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { imageToText, imageToTextBinary } from '../../lib/image-to-text';
 import { ImageCaption } from '../../lib/models/image-caption';
 import { runMiddleware } from '../../lib/run-middleware';
 
+const Cors = require('cors');
+
 const cors = Cors({
+    origin: '*',
     methods: ['GET', 'POST', 'HEAD']
 });
 
