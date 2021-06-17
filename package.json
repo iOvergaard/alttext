@@ -1,6 +1,10 @@
 {
-  "name": "hello-world",
+  "name": "alttext-generator",
   "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iOvergaard/alttext"
+  },
   "scripts": {
     "dev": "next",
     "build": "next build",
