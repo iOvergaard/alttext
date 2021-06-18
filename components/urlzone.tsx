@@ -23,6 +23,7 @@ function Urlzone(): JSX.Element {
     const target = event.target as typeof event.target & {
       url: { value: string };
     };
+
     const { url } = target;
 
     if (url?.value) {
@@ -87,7 +88,7 @@ function Urlzone(): JSX.Element {
             Caption (with a confidence of {caption.confidence}): This is probably a photo showing <strong>{caption.caption}</strong>
           </p>
 
-          {image ? <img alt={caption.caption} title={caption.caption} src={image} width={500} loading="lazy" /> : ''}
+          {image ? <img className={styles.image} alt={caption.caption} title={caption.caption} src={image} loading="lazy" /> : ''}
         </div>
       ) : (
         ''
