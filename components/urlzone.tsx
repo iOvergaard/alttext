@@ -26,7 +26,7 @@ function Urlzone(): JSX.Element {
     const { url } = target;
 
     if (url?.value) {
-      const caption = await fetch(`/api/image?describeURL=${url.value}`, {
+      const caption = await fetch(`/api/image?describeURL=${encodeURIComponent(url.value)}`, {
         headers: {
           'Content-Type': 'application/json'
         }
