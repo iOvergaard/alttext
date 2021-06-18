@@ -2,14 +2,13 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { imageToText } from '../../lib/image-to-text';
 import { ImageCaption } from '../../lib/models/image-caption';
-import { runMiddleware } from '../../lib/run-middleware';
 
 const Cors = require('cors');
 
-const cors = Cors({
+/*const cors = Cors({
   origin: '*',
   methods: ['GET', 'POST', 'HEAD']
-});
+});*/
 
 export const config = {
   api: {
@@ -20,7 +19,7 @@ export const config = {
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<ImageCaption | string>) {
-  await runMiddleware(req, res, cors);
+  //await runMiddleware(req, res, cors);
 
   let caption: ImageCaption | null = null;
   let errorMsg = '';
