@@ -1,4 +1,4 @@
-import Dropzone from '../components/dropzone';
+import Urlzone from '../components/urlzone';
 
 export default function Home(): JSX.Element {
   return (
@@ -8,7 +8,8 @@ export default function Home(): JSX.Element {
         <p>This tool enables you to find an alt text from images</p>
       </header>
 
-      <Dropzone />
+      <Urlzone />
+      {/*<Dropzone />*/}
     </main>
   );
 }
