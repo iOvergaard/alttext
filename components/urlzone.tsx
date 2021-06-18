@@ -84,7 +84,7 @@ function Urlzone(): JSX.Element {
             <h3>Here are the results:</h3>
           </header>
           <p>
-            Caption (with a confidence of {caption.confidence}): This is probably a photo showing {caption.caption}
+            Caption (with a confidence of {caption.confidence}): This is probably a photo showing <strong>{caption.caption}</strong>
           </p>
 
           {image ? <img alt={caption.caption} title={caption.caption} src={image} width={500} loading="lazy" /> : ''}
