@@ -5,8 +5,7 @@ import { ImageCaptionResult } from '../lib/models/image-caption';
 import styles from './urlzone.module.scss';
 
 function Urlzone(): JSX.Element {
-  const defaultImage =
-    'https://images.unsplash.com/photo-1591638848692-0c789163f6f7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80';
+  const defaultImage = 'https://images.unsplash.com/photo-1591638848692-0c789163f6f7?w=500';
   const [captions, setCaptions] = useState<ImageCaptionResult>();
   const [image, setImage] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
@@ -61,7 +60,7 @@ function Urlzone(): JSX.Element {
           <a href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
         </p>
 
-        <form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler} noValidate autoComplete="off">
           <div className={styles.block}>
             <input className={styles.url} type="text" name="url" placeholder="<url to image>" defaultValue={defaultImage} />
           </div>
