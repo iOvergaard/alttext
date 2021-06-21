@@ -1,13 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from 'react';
 
-import { ImageCaption } from '../lib/models/image-caption';
+import { ImageCaptionResult } from '../lib/models/image-caption';
 import styles from './urlzone.module.scss';
 
 function Urlzone(): JSX.Element {
   const defaultImage =
     'https://images.unsplash.com/photo-1591638848692-0c789163f6f7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80';
-  const [caption, setCaption] = useState<ImageCaption>();
+  const [captions, setCaptions] = useState<ImageCaptionResult>();
   const [image, setImage] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>();
@@ -15,7 +15,7 @@ function Urlzone(): JSX.Element {
   const submitHandler = async (event: React.SyntheticEvent) => {
     event.preventDefault();
 
-    setCaption(undefined);
+    setCaptions(undefined);
     setImage(undefined);
     setLoading(true);
     setError(undefined);
@@ -27,7 +27,7 @@ function Urlzone(): JSX.Element {
     const { url } = target;
 
     if (url?.value) {
-      const caption = await fetch(`/api/image?describeURL=${encodeURIComponent(url.value)}`, {
+      const captions: ImageCaptionResult = await fetch(`/api/image?describeURL=${encodeURIComponent(url.value)}`, {
         headers: {
           'Content-Type': 'application/json'
         }
@@ -39,8 +39,8 @@ function Urlzone(): JSX.Element {
           return null;
         });
 
-      if (caption) {
-        setCaption(caption);
+      if (captions) {
+        setCaptions(captions);
         setImage(url.value);
       }
     }
@@ -79,16 +79,28 @@ function Urlzone(): JSX.Element {
 
       {error ? <div>{error}</div> : ''}
 
-      {caption ? (
+      {captions ? (
         <div>
           <header>
             <h3>Here are the results:</h3>
           </header>
-          <p>
-            Caption (with a confidence of {caption.confidence}): This is probably a photo showing <strong>{caption.caption}</strong>
-          </p>
+          {captions.tags.length ? (
+            <p>
+              This image is tagged with{' '}
+              {captions.tags.map((tag) => (
+                <strong key={tag}>{tag} </strong>
+              ))}
+            </p>
+          ) : (
+            ''
+          )}
+          {captions.captions.map((caption, idx) => (
+            <p key={idx}>
+              Caption (with a confidence of {caption.confidence}): This may be a <strong>{caption.caption}</strong>
+            </p>
+          ))}
 
-          {image ? <img className={styles.image} alt={caption.caption} title={caption.caption} src={image} loading="lazy" /> : ''}
+          {image ? <img className={styles.image} alt={captions.captions[0]?.caption} title={captions.captions[0]?.caption} src={image} loading="lazy" /> : ''}
         </div>
       ) : (
         ''

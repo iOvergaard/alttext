@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { imageToText } from '../../lib/image-to-text';
-import { ImageCaption } from '../../lib/models/image-caption';
+import { ImageCaptionResult } from '../../lib/models/image-caption';
 
 const Cors = require('cors');
 
@@ -18,11 +18,8 @@ export const config = {
   }
 };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<ImageCaption | string>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<ImageCaptionResult | string>) {
   //await runMiddleware(req, res, cors);
-
-  let caption: ImageCaption | null = null;
-  let errorMsg = '';
 
   if (req.method === 'GET') {
     const { describeURL = 'https://moderatorsampleimages.blob.core.windows.net/samples/sample16.png' } = req.query;
@@ -31,20 +28,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     console.log('Analyzing URL image to describe...', describeURL);
 
     try {
-      caption = await imageToText(Array.isArray(describeURL) ? describeURL[0] : describeURL);
+      const result = await imageToText(Array.isArray(describeURL) ? describeURL[0] : describeURL);
+      res.status(200).json(result);
     } catch (e) {
-      errorMsg = e.message;
+      res.status(500);
+      res.statusMessage = e.message;
+      res.end();
+      return;
     }
   } else {
     res.status(405);
     res.end();
     return;
-  }
-
-  if (caption) res.status(200).json(caption);
-  else {
-    res.statusMessage = 'Something went wrong trying to contact the API (' + errorMsg + ')';
-    res.status(500);
-    res.end();
   }
 }
